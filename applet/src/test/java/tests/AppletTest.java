@@ -31,11 +31,11 @@ public class AppletTest {
                                                         "6b c1 be e2 2e 40 9f 96 e9 3d 7e 11 73 93 17 2a" +
                                                         "ae 2d 8a 57 1e 03 ac 9c 9e b7 6f ac 45 af 8e 51" +
                                                         "30 c8 1c 46 a3 5c e4 11  00";
-    private static final String APDU_DIVERSIFY_LEN64  = "80 21 00 00 40 6b c1 be e2 2e 40 9f 96 e9 3d 7e" +
-                                                        "11 73 93 17 2a ae 2d 8a 57 1e 03 ac 9c 9e b7 6f" +
-                                                        "ac 45 af 8e 51 30 c8 1c 46 a3 5c e4 11 e5 fb c1" +
-                                                        "19 1a 0a 52 ef f6 9f 24 45 df 4f 9b 17 ad 2b 41" +
-                                                        "7b e6 6c 37 10 00";
+    private static final String APDU_DIVERSIFY_LEN64  = "80 21  00 00  40" +
+                                                        "6b c1 be e2 2e 40 9f 96 e9 3d 7e 11 73 93 17 2a" +
+                                                        "ae 2d 8a 57 1e 03 ac 9c 9e b7 6f ac 45 af 8e 51" +
+                                                        "30 c8 1c 46 a3 5c e4 11 e5 fb c1 19 1a 0a 52 ef" +
+                                                        "f6 9f 24 45 df 4f 9b 17 ad 2b 41 7b e6 6c 37 10  00";
     static CardManager cardManager;
     static RunConfig runConfig;
     
