@@ -1,46 +1,18 @@
 # JavaCard Template project with Gradle
 
-[![Build Status](https://travis-ci.org/ph4r05/javacard-gradle-template.svg?branch=master)](https://travis-ci.org/ph4r05/javacard-gradle-template)
+[![Build Status](https://travis-ci.org/kategray/midas.svg?branch=master)](https://travis-ci.org/ph4r05/javacard-gradle-template)
 
-This is simple JavaCard project template using Gradle build system.
+Key diversification JavaCard applet.
 
-You can develop your JavaCard applets and build cap files with the Gradle!
-Moreover the project template enables you to test the applet with [JCardSim] or on the physical cards.
+What currently works:
 
-Gradle project contains one module:
+* Generating a diversification key for arbitrary IDs using AES-128 CMAC and a static key.
 
-- `applet`: contains the javacard applet. Can be used both for testing and building CAP
 
-Features:
- - Gradle build (CLI / IntelliJ Idea)
- - Build CAP for applets
- - Test applet code in [JCardSim] / physical cards
- - IntelliJ Idea: Coverage
- - Travis support 
-
-### Template
-
-The template contains simple Hello World applet generating random bytes on any APDU message received.
-There is also implemented very simple test that sends static APDU command to this applet - in JCardSim.
-
-The Gradle project can be opened and run in the IntelliJ Idea.
-
-Running in IntelliJ Idea gives you a nice benefit: *Coverage*!
-
-## How to use
-
-- Clone this template repository:
-
-```
-git clone --recursive https://github.com/ph4r05/javacard-gradle-template.git
-```
-
-- Implement your applet in the `applet` module.
+## Building installable cap file
 
 - Run Gradle wrapper `./gradlew` on Unix-like system or `./gradlew.bat` on Windows
 to build the project for the first time (Gradle will be downloaded if not installed).
-
-## Building cap
 
 - Setup your Applet ID (`AID`) in the `./applet/build.gradle`.
 
@@ -57,22 +29,19 @@ Note: `--rerun-tasks` is to force re-run the task even though the cached input/o
 Typical output:
 
 ```
-[ant:cap] [ INFO: ] Converter [v3.0.5]
-[ant:cap] [ INFO: ]     Copyright (c) 1998, 2015, Oracle and/or its affiliates. All rights reserved.
-[ant:cap]     
-[ant:cap]     
-[ant:cap] [ INFO: ] conversion completed with 0 errors and 0 warnings.
-[ant:verify] XII 10, 2017 10:45:05 ODP.  
-[ant:verify] INFO: Verifier [v3.0.5]
-[ant:verify] XII 10, 2017 10:45:05 ODP.  
-[ant:verify] INFO:     Copyright (c) 1998, 2015, Oracle and/or its affiliates. All rights reserved.
-[ant:verify]     
-[ant:verify]     
-[ant:verify] XII 10, 2017 10:45:05 ODP.  
-[ant:verify] INFO: Verifying CAP file /Users/dusanklinec/workspace/jcard/applet/out/cap/applet.cap
-[ant:verify] javacard/framework/Applet
-[ant:verify] XII 10, 2017 10:45:05 ODP.  
-[ant:verify] INFO: Verification completed with 0 warnings and 0 errors.
+> Task :applet:buildJavaCard
+Putting task artifact state for task ':applet:buildJavaCard' into context took 0.0 secs.
+Executing task ':applet:buildJavaCard' (up-to-date check took 0.0 secs) due to:
+  Task has not declared any outputs.
+[ant:cap] INFO: using JavaCard v2.2.2 SDK in C:\Kate\JavaCard\midas\libs-sdks\jc222_kit
+[ant:cap] Building CAP with 1 applet from package com.codebykate.smartcard
+[ant:cap] com.codebykate.smartcard.MidasApplet F044696E65726F01
+[ant:compile] Compiling 3 source files to C:\Users\kateb\AppData\Local\Temp\jccpro2374824316456133018
+[ant:cap] CAP saved to C:\Kate\JavaCard\midas\applet\build\javacard\applet.cap
+[ant:exp] EXP saved to C:\Kate\JavaCard\midas\applet\build\javacard\applet.exp\com\codebykate\smartcard\javacard\smartcard.exp
+[ant:jca] JCA saved to C:\Kate\JavaCard\midas\applet\build\javacard\applet.jca
+
+:applet:buildJavaCard (Thread[Task worker,5,main]) completed. Took 1.895 secs.
 ```
 
 ## Running tests
@@ -84,87 +53,31 @@ Typical output:
 Output:
 
 ```
-Running test: Test method hello(AppletTest)
-
-Gradle suite > Gradle test > AppletTest.hello STANDARD_OUT
+Gradle suite > Gradle test STANDARD_OUT
     Connecting to card... Done.
-    --> [00C00000080000000000000000] 13
-    <-- 51373E8B6FDEC284DB569204CA13D2CAA23BD1D85DCAB02A0E3D50461E73F1BB 9000 (32)
-    ResponseAPDU: 34 bytes, SW=9000
+
+Gradle suite > Gradle test > tests.AppletTest.testDiversify STANDARD_OUT
+    --> [8021000000] 5
+    <-- 97DD6E5A882CBD564C39AE7D1C5A31AA 9000 (16)
+    --> [80210000106BC1BEE22E409F96E93D7E117393172A00] 22
+    <-- D0BC5BB4D6F60D5B17B7BF794B45436D 9000 (16)
+    --> [80210000286BC1BEE22E409F96E93D7E117393172AAE2D8A571E03AC9C9EB76FAC45AF8E5130C81C46A35CE41100] 46
+    <-- 989BAFBFCE64B39B28EDF0379E6EF5DD 9000 (16)
+    --> [80210000406BC1BEE22E409F96E93D7E117393172AAE2D8A571E03AC9C9EB76FAC45AF8E5130C81C46A35CE411E5FBC1191A0A52EFF69F2445DF4F9B17AD2B417BE66C371000] 70
+    <-- 58279A2397F232989C4C28C1B1710979 9000 (16)
+
+Gradle suite > Gradle test > tests.AppletTest.testGetRandom STANDARD_OUT
+    --> [8010000000] 5
+    <-- 5291AD4526C53FA4FBD9C8E330FAFBD1117E9DCF2307C1BFDAC41BCC64884A6A 9000 (32)
+    --> [8010000000] 5
+    <-- 9EE4A7461300511243BAF0031A36F6C12A6A7EA541B6BC86035642D31384BE86 9000 (32)
+Finished generating test XML results (0.004 secs) into: C:\Kate\JavaCard\midas\applet\build\test-results\test
+Generating HTML test report...
+Finished generating test html results (0.006 secs) into: C:\Kate\JavaCard\midas\applet\build\reports\tests\test
+
+:applet:test (Thread[Task worker,5,main]) completed. Took 0.576 secs.
 ```
-
-## Dependencies
-
-This project uses mainly:
-
-- https://github.com/bertrandmartel/javacard-gradle-plugin
-- https://github.com/martinpaljak/ant-javacard
-- https://github.com/martinpaljak/oracle_javacard_sdks
-- https://github.com/licel/jcardsim
-- Petr Svenda scripts 
-
-Big kudos for a great work!
 
 ### JavaCard support
 
-Thanks to Martin Paljak's [ant-javacard] and [oracle_javacard_sdks] we support:
-
-- JavaCard 2.1.2
-- JavaCard 2.2.1
-- JavaCard 2.2.2
-- JavaCard 3.0.3
-- JavaCard 3.0.4
-- JavaCard 3.0.5u1
-
-## Coverage
-
-This is a nice benefit of the IntelliJ Idea - gives you coverage 
-results out of the box. 
-
-You can see the test coverage on your applet code.
-
-- Go to Gradle plugin in IntelliJ Idea
-- Tasks -> verification -> test
-- Right click - run with coverage.
-
-Coverage summary:
-![coverage summary](https://raw.githubusercontent.com/ph4r05/javacard-gradle-template/master/.github/image/coverage_summary.png)
-
-Coverage code:
-![coverage code](https://raw.githubusercontent.com/ph4r05/javacard-gradle-template/master/.github/image/coverage_class.png)
-
-## Troubleshooting
-
-If you experience the following error: 
-
-```
-java.lang.VerifyError: Expecting a stackmap frame at branch target 19
-    Exception Details:
-      Location:
-        javacard/framework/APDU.<init>(Z)V @11: ifeq
-      Reason:
-        Expected stackmap frame at this location.
-```
-
-Then try running JVM with `-noverify` option.
-
-In the IntelliJ Idea this can be configured in the top tool bar
-with run configurations combo box -> click -> Edit Configurations -> VM Options.
-
-## Roadmap
-
-TODOs for this project:
-
-- Polish Gradle build scripts
-- Add basic libraries as maven dependency.
-
-## Contributions
-
-Community feedback is highly appreciated - pull requests are welcome!
-
-
-
-[JCardSim]: https://jcardsim.org/
-[ant-javacard]: https://github.com/martinpaljak/ant-javacard
-[oracle_javacard_sdks]: https://github.com/martinpaljak/oracle_javacard_sdks
-
+Midas requires JavaCard 2.2.1 support or higher.
