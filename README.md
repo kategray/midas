@@ -1,6 +1,6 @@
-# JavaCard Template project with Gradle
+# Midas Key Diversification JavaCard Applet
 
-[![Build Status](https://travis-ci.org/kategray/midas.svg?branch=master)](https://travis-ci.org/ph4r05/javacard-gradle-template)
+[![Build Status](https://travis-ci.org/kategray/midas.svg?branch=master)](https://travis-ci.org/kategray/midas)
 
 Key diversification JavaCard applet.
 
