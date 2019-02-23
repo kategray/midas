@@ -89,7 +89,7 @@ public class MidasApplet extends Applet implements MultiSelectable
 			case INS_GET_DIVERSIFIED_KEY:
 				// Ensure that the incoming data was received properly
 				recvLength = apdu.setIncomingAndReceive();
-				if(recvLength != apdu.getIncomingLength()) {
+				if(recvLength != apduBuffer[ISO7816.OFFSET_LC]) {
 					ISOException.throwIt(ISO7816.SW_WRONG_LENGTH);
 				}
 

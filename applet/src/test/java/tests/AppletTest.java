@@ -23,7 +23,9 @@ public class AppletTest {
     private static String APPLET_AID                  = "f0 44 69 6e 65 72 6f 00";
     private static byte APPLET_AID_BYTE[]             = Util.hexStringToByteArray(APPLET_AID);
 
-    private static final String APDU_GET_RANDOM       = "80 10  00 00  00";
+    private static final String APDU_GET_RANDOM             = "80 10  00 00  00";
+    private static final String APDU_GET_RANDOM_INVALID_LEN = "80 10  00 00  01";
+
     private static final String APDU_DIVERSIFY_EMPTY  = "80 21  00 00  00";
     private static final String APDU_DIVERSIFY_LEN16  = "80 21  00 00  10" +
                                                         "6b c1 be e2 2e 40 9f 96 e9 3d 7e 11 73 93 17 2a  00";
@@ -36,6 +38,7 @@ public class AppletTest {
                                                         "ae 2d 8a 57 1e 03 ac 9c 9e b7 6f ac 45 af 8e 51" +
                                                         "30 c8 1c 46 a3 5c e4 11 e5 fb c1 19 1a 0a 52 ef" +
                                                         "f6 9f 24 45 df 4f 9b 17 ad 2b 41 7b e6 6c 37 10  00";
+
     static CardManager cardManager;
     static RunConfig runConfig;
     
@@ -91,6 +94,7 @@ public class AppletTest {
     public void testGetRandom() throws Exception {
         final ResponseAPDU firstAPDU = sendCommandWithInitSequence(cardManager, APDU_GET_RANDOM, null);
         final ResponseAPDU secondAPDU = sendCommandWithInitSequence(cardManager, APDU_GET_RANDOM, null);
+        final ResponseAPDU invalidLenAPDU = sendCommandWithInitSequence(cardManager, APDU_GET_RANDOM_INVALID_LEN, null);
 
         // Check that each APDU returns successfully
         Assert.assertNotNull(firstAPDU);
@@ -103,6 +107,14 @@ public class AppletTest {
 
         // Verify that the two calls get different results
         Assert.assertThat(firstAPDU.getData(), not(equalTo(secondAPDU.getData())));
+
+        // Verify that invalid lengths throw the appropriate exception
+        Assert.assertNotNull(invalidLenAPDU);
+        Assert.assertEquals(0x6700, invalidLenAPDU.getSW());
+        System.out.println(invalidLenAPDU.toString());
+        Assert.assertNotNull(invalidLenAPDU.getData());
+        Assert.assertEquals(0, invalidLenAPDU.getData().length);
+
     }
 
     // Diversification Test
