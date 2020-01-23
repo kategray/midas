@@ -11,6 +11,13 @@ What currently works:
 
 ## Building installable cap file
 
+- Fetch submodules using your preferred method.  If you are using a command-line interface, you
+can use `git submodule update --init --recursive`
+
+- Ensure that you have a proper JDK in your path.  If you are in a corporate environment, and do
+not have nor wish to purchase a license from Oracle, we recommend the [AdoptOpenJDK](https://adoptopenjdk.net/)
+runtime with OpenJDK 8 and the HotSpot JVM.
+
 - Run Gradle wrapper `./gradlew` on Unix-like system or `./gradlew.bat` on Windows
 to build the project for the first time (Gradle will be downloaded if not installed).
 
